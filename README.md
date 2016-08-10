@@ -4,6 +4,10 @@
 
 ```java
 
+package com.github.brodier.splurth;
+
+import java.util.HashSet;
+import java.util.Set;
 
 public class SplurthElementValidator {
 
@@ -15,13 +19,54 @@ public class SplurthElementValidator {
         String symbol = symbolElement.toLowerCase();
         String element = elementName.toLowerCase();
 
-        // Test symbol length
+        // Test
         if (symbol.length() != SYMBOL_LENGTH) {
             return false;
         }
 
         int i1 = element.indexOf(symbol.charAt(0));
-        return i1 != NOT_FOUND && element.substring(i1 + 1).indexOf(symbol.charAt(1)) > 0;
+        if (i1 == NOT_FOUND) {
+            return false;
+        } else if (element.substring(i1 + 1).indexOf(symbol.charAt(1)) < 1) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public String getFirstOrderedSymbol(String elementName) {
+        int firstSymbolLetterIndex = getIndexOfLowerCharacter(
+                elementName.toLowerCase().substring(0, elementName.length() - 1));
+        int relative2ndSymbLetterIdx = getIndexOfLowerCharacter(
+                elementName.toLowerCase().substring(firstSymbolLetterIndex + 1));
+        char[] symbolChars = { Character.toUpperCase(elementName.charAt(firstSymbolLetterIndex)),
+                Character.toLowerCase(elementName.charAt(relative2ndSymbLetterIdx + firstSymbolLetterIndex + 1)) };
+        return new String(symbolChars);
+    }
+
+    public int nbValidSymbols(String elementName) {
+        return listAllSymbol(elementName).size();
+    }
+
+    private int getIndexOfLowerCharacter(String string) {
+        Character firstChar = null;
+        for (Character c : string.toCharArray()) {
+            if (firstChar == null || firstChar > c) {
+                firstChar = c;
+            }
+        }
+        return string.indexOf(firstChar);
+    }
+
+    private Set<String> listAllSymbol(String elementName) {
+        Set<String> validSymbols = new HashSet<String>();
+        for (int i = 0; i < elementName.length() - 1; i++) {
+            Character fstSymLet = Character.toUpperCase(elementName.charAt(i));
+            for (Character sndSymLet : elementName.toLowerCase().substring(i + 1).toCharArray()) {
+                validSymbols.add(new String(new char[] { fstSymLet, sndSymLet }));
+            }
+        }
+        return validSymbols;
     }
 
 }
@@ -30,7 +75,7 @@ public class SplurthElementValidator {
 # SplurthElementValidator.java JUnit test case for validation
 
 ```java
-// ChanlangeTest.java
+package com.github.brodier.splurth;
 
 import static org.junit.Assert.*;
 
@@ -75,5 +120,21 @@ public class ChanlangeTest {
         assertFalse(validator.validate("Mm", "Ratinum"));
     }
 
+    @Test
+    public void testFirstSymbolGozeium() {
+        assertEquals("Ei", validator.getFirstOrderedSymbol("Gozeium"));
+    }
+
+    @Test
+    public void testFirstSymbolSlimyrine() {
+        assertEquals("Ie", validator.getFirstOrderedSymbol("Slimyrine"));
+    }
+    
+    @Test
+    public void testNbSymbolZuulon() {
+        assertEquals(11, validator.nbValidSymbols("Zuulon"));
+    }
+    
 }
+
 ```
