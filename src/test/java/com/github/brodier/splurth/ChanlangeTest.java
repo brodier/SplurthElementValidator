@@ -43,4 +43,19 @@ public class ChanlangeTest {
         assertFalse(validator.validate("Mm", "Ratinum"));
     }
 
+    @Test
+    public void testFirstSymbolGozeium() {
+        assertEquals("Ei", validator.getFirstOrderedSymbol("Gozeium"));
+    }
+
+    @Test
+    public void testFirstSymbolSlimyrine() {
+        assertEquals("Ie", validator.getFirstOrderedSymbol("Slimyrine"));
+    }
+    
+    @Test
+    public void testNbSymbolZuulon() {
+        assertEquals(11, validator.nbValidSymbols("Zuulon"));
+    }
+    
 }
