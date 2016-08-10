@@ -1,0 +1,10 @@
+.setting
+.project
+.classpath
+/.idea
+*.iml
+/target
+/.settings
+/.pmd
+*.log
+git.properties
