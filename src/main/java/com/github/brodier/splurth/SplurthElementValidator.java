@@ -1,3 +1,5 @@
+package com.github.brodier.splurth;
+
 
 public class SplurthElementValidator {
 

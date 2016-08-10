@@ -1,4 +1,5 @@
-// 
+package com.github.brodier.splurth;
+
 import static org.junit.Assert.*;
 
 import org.junit.Test;
